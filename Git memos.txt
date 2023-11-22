@@ -1,0 +1,396 @@
+		LESSON 1: Configuring Git
+	1.1 - Three Levels of Configuration (0:00)
+// Git has three levels of configuration: Global, Local, System
+} --global: all repositories in use
+} --local: only one specified repository
+} --system: for multiple users
+
+	1.2 - Basic Configuration Settings (2:24)
+> git config --global user.name (Displays username)
+
+> git config --global user.name "[Username]" (Sets/updates username)
+
+> git config --global user.email (Displays email)
+
+> git config --global user.email "[Email]" (Sets/updates email)
+
+> cat ~/.gitconfig (Displays contents of specified file)
+
+> git config --global --list (Displays a list of settings on global level)
+
+> vi ~/.gitconfig (Uses the 'vi' text editor to edit the specified file)
+} :wq - : = command, w = save the contents of the file, q = exit
+
+> git config --global color.ui true (Enables text colors)
+
+	1.3 - Configuring Line Endings (7:25)
+> git config --global core.autocrlf input (Removes carriage returns on Linux and Mac repositories upon file addition.)
+} autocrlf = Automatic Carriage Return + Line Feed.
+} 'input' is required for Mac and Linux computers
+} 'true' is required for Windows computers
+
+	1.4 - Configuring Aliases (11:05)
+> git config --global alias.[aliasName] "[Command]" (Sets an alias for a set of commands)
+
+> git config --global alias.s "status -s" (Sets an 's' command to set Git to silent mode)
+
+> git config --global alias.lg "log --oneline --all --graph --decorate" (Displays log of the repository changes with specified parameters)
+} --oneline: output is on a single line for each change
+} --all: all branches
+} --graph: shows the output in a graph
+} --decorate: displays additional info
+
+		LESSON 2: Getting Started with Git
+	2.1 - Creating Your First Git Repository (0:00)
+> git status (Checks current repository status)
+} -s (More compact repository status)
+} } ?? = Untracked
+} } A = Added, not committed
+
+> git init [Repository Name] (Creates a new repository)
+
+> cd [Directory name] (Opens the specified directory)
+
+	2.2 - Committing in Git (3:14)
+> touch [File name] (Creates an empty file)
+
+> git add [File name or .] (Adds the file(s) to the repository)
+} . = all files
+} -A = all files + deleted
+} } Git will use similarity index to identify whether the file name was renamed
+
+> git commit (Commits added file(s) to the repository)
+} -m "[Text]" (Displays a message regarding the committed files)
+
+	2.3 - Understanding a Git Commit (8:28)
+// "On branch master" = Primary, root branch
+
+// [master (root-commit) {identifier}] - Identifier is unique address for a specified commit
+
+	2.4 - The Benefits of the Staging Area (10:46)
+> touch [File 1] [File 2] ... [File X] (Creates multiple empty files)
+
+> git add [Text]* (Adds every file that starts with specified text to the repository)
+
+	2.5 - Git Log For Viewing History (16:05)
+> git log (Displays a base log of repository changes)
+
+		LESSON 3: Getting Started with GitHub
+	3.1 - Creating a Repository in GitHub (0:00)
+@ https://github.com (GitHub website)
+
+//In the top right a plus icon indicates "Create new..." with options to create a repository or an organization
+
+//User Profile -> Repositories = List of repositories
+
+// Right side contains a panel with options, one of them is "Settings" which allow you to change the repository settings, and even delete it
+
+	3.2 - Uploading Your Repo to GitHub (3:05)
+> git remote add origin https://github.com/[User]/[Repo] (Adds an existing repository from GitHub)
+
+> git push -u origin master (Pushes the repository to GitHub. May ask for credentials)
+
+	3.3 - Creating a Repository After Starting to Code (4:49)
+> cd .. (Root directory)
+
+> mkdir [File name] (Creates a new directory)
+
+> pwd (Current directory)
+
+> rm [File name] (Removes specified file, file deletion marked as unstaged in Git)
+
+		LESSON 4: Files in Git - Renaming, Deleting and Ignoring
+	4.1 - How to Rename a File in Git (0:00)
+> git mv [FileName1] [FileName2] (Renames the file using Git)
+
+// From git status:
+} } R = File was renamed
+
+> mv [FileName1] [FileName2] (Renames the file using the system)
+} // Warning: deletes the original file in Git repository, file has to be re-added
+
+	4.2 - Deleting a File in Git (9:50)
+> git rm [File] (Removes the file using Git, file deletion marked as staged in Git)
+
+// From git status:
+} } D = File was deleted
+
+	4.3 - Ignoring Files Using a .gitignore File (12:32)
+> vi .gitignore (Creates a file that will tell Git to ignore specific files)
+|| *[Text] (Ignores all files that end with the specified text)
+|| .DS_Store (Mac-specific file)
+
+	4.4 - Global gitexcludes and Other Git Ignore Options (19:09)
+> git config --global core.excludesfile ~/.gitignore (Adds a set of exclusions to the 'gitignore' file. Use with caution while in the team)
+// It's possible to create several .gitignore files, but it is recommended against doing that
+
+> open .git (Opens the Git folder)
+
+> cat .git/info/exclude (Displays the contents of the exclusions file)
+
+	4.5 - Git Ignore Precedence (23:39)
+// From vi .gitignore:
+|| ![Text] (Makes an exception for files with the specified name)
+
+// From git status:
+} } M = File was updated
+
+// Warning: order matters. Put exceptions after the string that executes ignoring
+
+	4.6 - git commit -a (27:41)
+// git commit -a works on all files, except untracked and ignored
+
+		LESSON 5: Branching, Merging and Rebasing
+	5.1 - Introducing Branching (0:00)
+> git branch (Displays a list of existing branches)
+
+> git branch [BranchName] (Creates a new branch if it doesn't exist)
+
+> git checkout [BranchName] (Switches to specified branch)
+
+	5.2 - Merging a Branch (4:58)
+> git merge [BranchName] (Merges the specified branch into the currently selected one)
+
+> git branch -d [BranchName] (Removes the specified branch)
+
+	5.3 - Creating a Fast Forward Merge (7:07)
+> git checkout -b [BranchName] (Creates a new branch and immediately switches to it)
+
+// git merge [BranchName] is an example of a fast-forward merge
+
+	5.4 - Introducing Recursive Merges (12:41)
+// Fast-forward merges work when branches are on the same line of history. Recursive merges occur when the history is split and the commit branches off
+
+	5.5 - "No Fast Forward" Recursive Merges (16:48)
+> git merge --no-ff [BranchName] (Merges the branches without utilizing fast-forward strategy)
+
+	5.6 - Resolving Merge Conflicts (21:18)
+// To fix a merge conflict:
+1. Open the file in text editor (usually vi)
+2. Remove unnecessary lines, such as the <<< and >>> lines
+3. Close with save
+4. Add changes and check with git status
+5. Proceed with merging (Edit the text info if necessary)
+
+	5.7 - Another Merge Conflict Example (35:57)
+// Make sure the order of links is correct before merging
+
+??? Learn differences between merge conflicts
+
+	5.8 - Git Diff (44:07)
+> git help [command] (Provides information about the specified command)
+
+> git diff (Shows edits in the unstaged files)
+> git diff --staged (Shows edits in the staged files)
+> git diff HEAD (Shows edits in both unstaged and staged files)
+
+// It is possible for a file to have both staged and unstaged edits
+
+	5.9 - Introducing Rebasing (48:56)
+// Not to be confused with interactive rebasing
+// Rebasing reapplies the commits to the branches
+
+	5.10 - Rebasing a Branch (51:40)
+> git rebase [BranchName] (Applies changes to the branch history with consideration of the specified branch)
+
+	5.11 - Handling Rebase Conflicts (57:46)
+// If rebasing fails, use git status to check the issue
+// Same as with merging conflicts, remove unnecessary lines, then add, and check with git status
+
+		LESSON 6: Git Internals
+	6.1 - Introducing "Git Under The Hood" (0:00)
+// This lesson will provide an understanding to how Git works
+
+	6.2 - Creating The First Commit (1:02)
+// Create a file
+> vi [File Name]
+|| hello world
+// Save, add and commit
+
+	6.3 - Exploring The Object Store (2:38)
+> open .git
+// In '.git' folder, the 'objects' folder contains all file objects, including the name and edits
+
+	6.4 - 'cat-file' to Explore Object Contents (4:25)
+> git cat-file -p [File Name*] (Displays information and contents from a specified file)
+
+	6.5 - The Benefits of Git's Use of SHA1 Hashes (9:27)
+// SHA1 Hashes are guaranteed to be the same in regards to checking for unique information.
+
+	6.6 - Git As a Content Store (How Many New Hashes) (10:53)
+// Avoid storing binary files in Git repository. Reason: Git fails to compress binary files and copies them instead.
+
+	6.7 - Understanding Remotes And Their Configuration (17:45)
+
+	6.8 - Configuring Your Push Default (23:38)
+> git config --global push.default simple (Switches push mode to simple as default)
+
+	6.9 - Fetch vs Pull (26:04)
+// Pull = fetch + merge. Fetch only retrieves the contents of the repository, but does not merge.
+
+	6.10 - Merge Versus Rebase on Pull (34:19)
+
+		LESSON 7: Collaborating via GitHub
+	7.1 - Cloning a Repository (0:00)
+> git clone [Link] (Clones a repository to your local files)
+// The purpose of cloning is to copy the files of the repository on GitHub and create a new Git repo to insert these files
+
+	7.2 - Forking a Repository (5:14)
+// The purpose of forking is to allow other users to work on the code if it is publicly available
+
+	7.3 - Contributing Via a Pull Request From a Fork (12:33)
+// Pull requests are done to ask for permission to commit the changes.
+
+	7.4 - Approving a Pull Request From a Fork (15:57)
+// The one to whom the pull request was sent is the one who decides whether to confirm or deny the request.
+
+	7.5 - Use Cases for Fork Based Collaboration (17:39)
+// Fork-based contributions work with open-source projects or occasional contributions
+
+	7.6 - Single Repo Collaboration Directly on Main (19:43)
+// Collaborators can work on an existing repository that was created by someone else. Collaborators can be accessed through Settings
+
+// Use 'git pull --rebase' for cleaner retrieval of files in collaboration projects
+
+	7.7 - Single Repo Collaboration Using Feature Branches (25:22)
+// Feature branches' purpose is to permit the collaborators to be able to work on the repo without interfering with each others' work
+
+	7.8 - Contributing to Another Feature Branch (30:11)
+// Switching to a remote branch without specifying that it is a remote branch creates a local branch to track the remote branch
+
+	7.9 - Creating a Pull Request Within a Single Repo (32:03)
+// Through pull requests, you can create a new one using the 'compare' drop menu to select a branch you want to add to the main branch (or selected one)
+
+	7.10 - Collaboration on a Pull Request (34:31)
+// It is always best to wait on collaborated pull requests so that you can receive feedback on your changes
+
+	7.11 - Merging in a Pull Request (38:11)
+// Typically the person who made the changes makes the merging, but it is better for the repo owner to manage the requests for better control over the process
+
+		LESSON 8: Reviewing a Project on GitHub
+	8.1 - Getting an Overview of a Project on GitHub Using the README (0:00)
+// READMEs are used to provide general information about the project, as well as its current development status (that can be publicly disclosed)
+
+	8.2 - Getting More Information About a Project (2:06)
+// Pull requests can be used to get more information about the project, including what has been completed, more detailed state of development, and more.
+
+	8.3 - Introducing Issues (4:34)
+// GitHub's Issues is used to list existing bugs, short-term goals, deadlines, etc. They can be filtered by how involved you were (did you assign the issue, was the issue created by you, were you mentioned in the issue)
+
+// Milestones are assigned a number of specific bugs to be fixed, the version name, and usually a deadline
+
+	8.4 - Viewing Project State Through Pulse and Graphs (9:36)
+// Graphs provide detailed information about the state of the project, such as the activity of contributors, frequency of commits, frequency of code edits, and the time of day during which the contributors are active.
+
+// Pulse provides information on what happened recently.
+
+		LESSON 9: Configuring a Project on GitHub
+	9.1 - Basic Configuration Options and Renaming a Repo (0:00)
+// You can access configuration options through Settings.
+
+// If you rename a repo on GitHub, use 'git pull' in Git repo first to update the repo link
+
+// Issues can be hidden until later
+
+	9.2 - GitHub Pages (2:44)
+// This function allows one to create a stylized page for the project. Useful for publicly-known projects, or if someone likes things looking pretty and organized
+
+	9.3 - Adding Collaborators and Integrations (5:00)
+// You can add collaborators through Settings/Collaborators. Type their username to add them
+
+// Webhooks can be used to keep everyone involved updated or specific people on the state of the project
+
+// Services are pre-built integrations that provide a more convenient, but less controlled way of informing those involved in the project.
+
+	9.4 - Configuring Deploy Keys (8:46)
+// Deploy keys are used to provide a more strict way for people to access repositories. Only those that have received the deploy key can access repos
+
+		LESSON 10: Tags and Releases
+	10.1 - Three Types of Tags (0:00)
+> git tag [Tag Name] (applies tag to the HEAD commit)
+> git tag [Tag Name] [Commit Hash] (applies tag to the specified commit]
+
+// The types of tags are as follows:
+1) Lightweight - an informative tag that doesn't do much else
+2) Annotated (-a) - an informative tag that is paired with a message
+3) Signed (-s) - a tag with an encrypted signature that proves you are the author behind the commit
+
+// Tags are applied only to a single commit. The default is the HEAD commit, but the commit can be specified after a tag name.
+
+// A single tag cannot be applied to multiple commits at once	
+
+	10.2 - Release Tags Versus Release Branches (6:15)
+// Release branches are useful for when you have to maintain multiple versions at once and/or when there are a lot of commits.
+
+// You can create branches retroactively by using 'git checkout' to switch to a tag, then 'git checkout -b' to create the branch right then and there.
+
+	10.3 - Cherry Pick for Reusing Code Across Long Running Release Branches (11:53)
+> git cherry-pick [Commit Hash] (Clones the specified commit to the current branch and applies it)
+
+> git cherry-pick -n [Object Hash] (Same as above, but without applying the commit)
+
+	10.4 - Git Stash for Reusing Code (16:55)
+> git stash (Saves the unstaged changes for later use)
+
+> git stash apply (Applies the saved changes)
+
+> git stash pop (Retrieves the saved changes from the stash)
+
+	10.5 - Pushing Tags Up to GitHub and Using Releases (20:36)
+> git push --tags (Adds the applied tags to GitHub repo)
+
+// Tags can be viewed and edited through Releases
+
+		LESSON 11: How to Undo Almost Anything Using Git
+	11.1 - Private Versus Public History and 'git revert' (0:00)
+> git revert [Commit Hash] (Undoes the specified commit)
+
+	11.2 - Don't Push Too Often (3:53)
+// It is better to check your commits and save the pushing for when you think enough is enough
+
+	11.3 - git commit --amend (5:20)
+> git commit --amend (Edits the most recent commit's message)
+
+// The command also allows you to commit staged files
+
+	11.4 - git reset (9:13)
+> git reset (--mixed) HEAD~# (Removes a specified number of commit messages starting with the recent one in the branch, and clears the staging area)
+
+> git reset --hard HEAD~# (Same as above, but also removes the files)
+
+> git reset --soft HEAD~# (Same thing, but the staging area will remain untouched)
+
+// Make sure you have not pushed the changes before using 'git reset'
+
+	11.5 - Introducing the Reflog (15:35)
+> git reflog (Shows a concise history of commits)
+
+// Reflog can be used to work with commits and resets that happened in the past, for example: restoring the file that has accidentally been deleted
+
+	11.6 - Rebase Interactive (21:11)
+> git rebase -i HEAD~# (Opens a menu that allows you to do a detailed edit of the specified commits)
+
+		Questions & Answers
+	Q1 - Can you create a GitHub repo without using your browser?
+A: There exists a command line tool called 'hub' that allows you to work with GitHub from the terminal.
+
+	Q2 - What's the difference between global and system configuration?
+A: Global is limited to the username that's working with Git. System allows any user to work with Git and make changes while on the computer.
+
+	Q3 - When dealing with merge conflict in a large file, how do you find the conflicts?
+A: Using the search function. Conflicts are marked down with specific symbols, making it easier to find them.
+
+	Q4 - Does Git show the two full, different version of a file or just the differences?
+A: Just the differences (???)
+
+	Q5 - Does a merge commit always include all of the files I created on the branch?
+A: Usually yes, but with 'git reset' it can be changed.
+
+	Q6 - Isn't it dangerous that you can make a bunch of changes to your code by merging in a branch?
+A: No, because you can almost always revert the changes.
+
+	Q7 - Do merges work the same way with merging into integration branches as into main?
+A: Yes, but it is recommended to not have one.
+
+	Q8 - How do you handle long running release branches?
+A: It is best to have the main branch, feature branches, and release branches if necessary.
